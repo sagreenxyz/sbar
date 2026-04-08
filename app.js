@@ -4,6 +4,12 @@
 
 const STORAGE_KEY = 'sbar-form-data';
 
+/**
+ * Duration (ms) a toast is visible on screen.
+ * Must align with the CSS animation: toast-in (0.25s) + display (2.5s) + toast-out (0.3s).
+ */
+const TOAST_DURATION_MS = 2800;
+
 /** Required field IDs that must be non-empty before generating the report. */
 const REQUIRED_FIELDS = [
   'currentDateTime',
@@ -65,8 +71,7 @@ function showToast(message, type = 'success') {
   toast.className = `toast toast-${type}`;
   toast.textContent = message;
   container.appendChild(toast);
-  // Remove after animation completes (2.8 s)
-  setTimeout(() => toast.remove(), 2800);
+  setTimeout(() => toast.remove(), TOAST_DURATION_MS);
 }
 
 // ── Local-storage persistence ─────────────────────────────────────────────────
@@ -475,7 +480,12 @@ function initSectionNav() {
         if (entry.isIntersecting) activate(entry.target.id);
       });
     },
-    { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
+    {
+      // Top 20% of viewport used for entry detection; bottom 70% excluded so
+      // only the section currently in the upper reading area is highlighted.
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0,
+    }
   );
 
   sections.forEach((s) => observer.observe(document.getElementById(s.id)));
@@ -487,8 +497,14 @@ function initScrollTop() {
   const btn = document.getElementById('scrollTopBtn');
   if (!btn) return;
 
+  let scrollThrottled = false;
   window.addEventListener('scroll', () => {
-    btn.classList.toggle('visible', window.scrollY > 300);
+    if (scrollThrottled) return;
+    scrollThrottled = true;
+    requestAnimationFrame(() => {
+      btn.classList.toggle('visible', window.scrollY > 300);
+      scrollThrottled = false;
+    });
   }, { passive: true });
 
   btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
