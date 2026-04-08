@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SBAR Hand-Off Patient Report</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>SBAR Hand-Off Patient Report</h1>
+      <p class="subtitle">Situation · Background · Assessment · Recommendation</p>
+    </div>
+  </header>
+
+  <main>
+    <form id="sbarForm" novalidate>
+
+      <!-- ── Date/Time ── -->
+      <section class="card">
+        <h2 class="section-title general-title">General Information</h2>
+        <div class="form-grid">
+          <div class="field">
+            <label for="currentDateTime">Current Date &amp; Time <span class="required">*</span></label>
+            <input type="text" id="currentDateTime" name="currentDateTime" placeholder="e.g. Monday 1200" required />
+          </div>
+          <div class="field">
+            <label for="admissionDateTime">Admission Date &amp; Time <span class="required">*</span></label>
+            <input type="text" id="admissionDateTime" name="admissionDateTime" placeholder="e.g. Monday 1025" required />
+          </div>
+        </div>
+      </section>
+
+      <!-- ── S – Situation ── -->
+      <section class="card situation-card">
+        <h2 class="section-title"><span class="badge badge-s">S</span> Situation</h2>
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Patient Name <span class="required">*</span></label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="field">
+            <label for="age">Age <span class="required">*</span></label>
+            <input type="number" id="age" name="age" min="0" required />
+          </div>
+          <div class="field">
+            <label for="sex">Sex <span class="required">*</span></label>
+            <select id="sex" name="sex" required>
+              <option value="">— Select —</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ethnicity">Ethnicity</label>
+            <input type="text" id="ethnicity" name="ethnicity" />
+          </div>
+          <div class="field">
+            <label for="religion">Religion</label>
+            <input type="text" id="religion" name="religion" />
+          </div>
+          <div class="field">
+            <label for="provider">Attending Provider <span class="required">*</span></label>
+            <input type="text" id="provider" name="provider" placeholder="e.g. Dr. Jane Smith, MD" required />
+          </div>
+          <div class="field full-width">
+            <label for="admissionDiagnosis">Admission Diagnosis <span class="required">*</span></label>
+            <input type="text" id="admissionDiagnosis" name="admissionDiagnosis" required />
+          </div>
+        </div>
+      </section>
+
+      <!-- ── B – Background ── -->
+      <section class="card background-card">
+        <h2 class="section-title"><span class="badge badge-b">B</span> Background</h2>
+
+        <div class="form-grid">
+          <div class="field full-width">
+            <label for="pertinentMedicalHistory">Pertinent Medical History</label>
+            <textarea id="pertinentMedicalHistory" name="pertinentMedicalHistory" rows="2"></textarea>
+          </div>
+          <div class="field full-width">
+            <label for="pertinentSocialHistory">Pertinent Social History</label>
+            <textarea id="pertinentSocialHistory" name="pertinentSocialHistory" rows="2"></textarea>
+          </div>
+          <div class="field">
+            <label for="allergies">Allergies <span class="required">*</span></label>
+            <input type="text" id="allergies" name="allergies" placeholder="e.g. NKDA, Penicillin" required />
+          </div>
+          <div class="field">
+            <label for="codeStatus">Code Status <span class="required">*</span></label>
+            <select id="codeStatus" name="codeStatus" required>
+              <option value="">— Select —</option>
+              <option value="Full code">Full code</option>
+              <option value="DNR">DNR</option>
+              <option value="DNI">DNI</option>
+              <option value="DNR/DNI">DNR/DNI</option>
+              <option value="Comfort care only">Comfort care only</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Vital Signs -->
+        <h3 class="subsection-title">Vital Signs (Most Recent)</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="vsTime">Time</label>
+            <input type="text" id="vsTime" name="vsTime" placeholder="e.g. 1130" />
+          </div>
+          <div class="field">
+            <label for="tempF">Temperature (°F)</label>
+            <input type="number" id="tempF" name="tempF" step="0.1" />
+          </div>
+          <div class="field">
+            <label for="tempC">Temperature (°C)</label>
+            <input type="number" id="tempC" name="tempC" step="0.1" />
+          </div>
+          <div class="field">
+            <label for="bloodPressure">Blood Pressure</label>
+            <input type="text" id="bloodPressure" name="bloodPressure" placeholder="e.g. 120/80" />
+          </div>
+          <div class="field">
+            <label for="pulse">Pulse (bpm)</label>
+            <input type="number" id="pulse" name="pulse" min="0" />
+          </div>
+          <div class="field">
+            <label for="respiratoryRate">Respiratory Rate (breaths/min)</label>
+            <input type="number" id="respiratoryRate" name="respiratoryRate" min="0" />
+          </div>
+          <div class="field">
+            <label for="oxygenSaturation">O₂ Saturation (%)</label>
+            <input type="number" id="oxygenSaturation" name="oxygenSaturation" min="0" max="100" step="0.1" />
+          </div>
+        </div>
+
+        <!-- Oxygen Therapy -->
+        <h3 class="subsection-title">Oxygen Therapy</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="oxygenMode">Mode</label>
+            <input type="text" id="oxygenMode" name="oxygenMode" placeholder="e.g. Room air, Nasal cannula" />
+          </div>
+          <div class="field">
+            <label for="oxygenLPM">Liters/Minute</label>
+            <input type="number" id="oxygenLPM" name="oxygenLPM" step="0.5" min="0" placeholder="Leave blank if room air" />
+          </div>
+        </div>
+
+        <!-- Pain -->
+        <h3 class="subsection-title">Pain</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="painRating">Pain Rating</label>
+            <input type="text" id="painRating" name="painRating" placeholder="e.g. 5/10" />
+          </div>
+          <div class="field">
+            <label for="painMedication">Most Recent Pain Medication</label>
+            <input type="text" id="painMedication" name="painMedication" />
+          </div>
+          <div class="field">
+            <label for="medicationTime">Medication Time</label>
+            <input type="text" id="medicationTime" name="medicationTime" placeholder="e.g. 1045" />
+          </div>
+        </div>
+
+        <!-- Other Medications -->
+        <div class="form-grid">
+          <div class="field full-width">
+            <label for="otherRecentMedications">Other Recent Medications</label>
+            <textarea id="otherRecentMedications" name="otherRecentMedications" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- IV Access -->
+        <h3 class="subsection-title">IV Access</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="ivSite">Site</label>
+            <input type="text" id="ivSite" name="ivSite" placeholder="e.g. Right antecubital" />
+          </div>
+          <div class="field">
+            <label for="ivType">Type</label>
+            <input type="text" id="ivType" name="ivType" placeholder="e.g. 18-gauge PIV" />
+          </div>
+          <div class="field">
+            <label for="ivAssessment">Assessment</label>
+            <input type="text" id="ivAssessment" name="ivAssessment" placeholder="e.g. Patent, no redness" />
+          </div>
+          <div class="field">
+            <label for="ivFluid">IV Fluid &amp; Rate</label>
+            <input type="text" id="ivFluid" name="ivFluid" placeholder="e.g. NS at 75 mL/hr" />
+          </div>
+        </div>
+
+        <!-- Drains & Tubes -->
+        <h3 class="subsection-title">Drains &amp; Tubes</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="drainSite">Site</label>
+            <input type="text" id="drainSite" name="drainSite" placeholder="None if not applicable" />
+          </div>
+          <div class="field">
+            <label for="drainType">Type</label>
+            <input type="text" id="drainType" name="drainType" />
+          </div>
+          <div class="field">
+            <label for="drainAssessment">Assessment</label>
+            <input type="text" id="drainAssessment" name="drainAssessment" />
+          </div>
+        </div>
+
+        <!-- Wounds -->
+        <h3 class="subsection-title">Wounds</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="woundSite">Site</label>
+            <input type="text" id="woundSite" name="woundSite" placeholder="None if not applicable" />
+          </div>
+          <div class="field">
+            <label for="woundType">Type</label>
+            <input type="text" id="woundType" name="woundType" />
+          </div>
+          <div class="field">
+            <label for="woundAssessment">Assessment</label>
+            <input type="text" id="woundAssessment" name="woundAssessment" />
+          </div>
+        </div>
+
+        <!-- ADLs -->
+        <h3 class="subsection-title">Activities of Daily Living (ADLs)</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="diet">Diet</label>
+            <input type="text" id="diet" name="diet" placeholder="e.g. Regular, NPO, Low sodium" />
+          </div>
+          <div class="field">
+            <label for="activity">Activity</label>
+            <input type="text" id="activity" name="activity" placeholder="e.g. Ambulate TID, Bed rest" />
+          </div>
+        </div>
+
+        <!-- Restrictions -->
+        <h3 class="subsection-title">Restrictions</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="isolation">Isolation</label>
+            <input type="text" id="isolation" name="isolation" placeholder="e.g. Standard precautions, Contact" />
+          </div>
+          <div class="field">
+            <label for="fallRisk">Fall Risk</label>
+            <input type="text" id="fallRisk" name="fallRisk" placeholder="e.g. High (Morse score 65)" />
+          </div>
+        </div>
+
+        <!-- System Assessments -->
+        <h3 class="subsection-title">System Assessments</h3>
+        <div class="form-grid">
+          <div class="field full-width">
+            <label for="neurologic">Neurologic</label>
+            <textarea id="neurologic" name="neurologic" rows="2" placeholder="e.g. A&Ox4, pupils equal and reactive"></textarea>
+          </div>
+          <div class="field full-width">
+            <label for="cardiac">Cardiac</label>
+            <textarea id="cardiac" name="cardiac" rows="2" placeholder="e.g. Regular rate and rhythm, no edema"></textarea>
+          </div>
+          <div class="field full-width">
+            <label for="respiratory">Respiratory</label>
+            <textarea id="respiratory" name="respiratory" rows="2" placeholder="e.g. CTA bilaterally, unlabored"></textarea>
+          </div>
+          <div class="field full-width">
+            <label for="giGu">GI/GU</label>
+            <textarea id="giGu" name="giGu" rows="2" placeholder="e.g. BS present x4, voiding clear yellow urine"></textarea>
+          </div>
+          <div class="field full-width">
+            <label for="integumentary">Integumentary</label>
+            <textarea id="integumentary" name="integumentary" rows="2" placeholder="e.g. Skin warm, dry, and intact"></textarea>
+          </div>
+          <div class="field full-width">
+            <label for="orthoMobility">Ortho/Mobility</label>
+            <textarea id="orthoMobility" name="orthoMobility" rows="2"></textarea>
+          </div>
+          <div class="field full-width">
+            <label for="psychosocial">Psychosocial</label>
+            <textarea id="psychosocial" name="psychosocial" rows="2"></textarea>
+          </div>
+          <div class="field full-width">
+            <label for="systemOther">Other</label>
+            <textarea id="systemOther" name="systemOther" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- Labs & Diagnostics -->
+        <div class="form-grid">
+          <div class="field full-width">
+            <label for="labsAndDiagnostics">Labs &amp; Diagnostics</label>
+            <textarea id="labsAndDiagnostics" name="labsAndDiagnostics" rows="3" placeholder="Summarize recent lab and diagnostic results"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── A – Assessment ── -->
+      <section class="card assessment-card">
+        <h2 class="section-title"><span class="badge badge-a">A</span> Assessment</h2>
+        <div class="form-grid">
+          <div class="field full-width">
+            <label for="nursesAssessment">Nurse's Clinical Assessment <span class="required">*</span></label>
+            <textarea id="nursesAssessment" name="nursesAssessment" rows="4" placeholder="Provide a narrative clinical assessment of the patient's current status" required></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── R – Recommendation ── -->
+      <section class="card recommendation-card">
+        <h2 class="section-title"><span class="badge badge-r">R</span> Recommendation</h2>
+        <div class="form-grid">
+          <div class="field full-width">
+            <label for="planOfCare">Plan of Care</label>
+            <textarea id="planOfCare" name="planOfCare" rows="3"></textarea>
+          </div>
+          <div class="field full-width">
+            <label for="testResultsPending">Test Results Pending</label>
+            <textarea id="testResultsPending" name="testResultsPending" rows="2" placeholder="None if not applicable"></textarea>
+          </div>
+          <div class="field full-width">
+            <label for="ordersPendingCompletion">Orders Pending Completion</label>
+            <textarea id="ordersPendingCompletion" name="ordersPendingCompletion" rows="2" placeholder="None if not applicable"></textarea>
+          </div>
+          <div class="field full-width">
+            <label for="recommendationOther">Other</label>
+            <textarea id="recommendationOther" name="recommendationOther" rows="2"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <div class="action-bar">
+        <button type="button" id="clearBtn" class="btn btn-secondary">Clear Form</button>
+        <button type="submit" id="generateBtn" class="btn btn-primary">Generate SBAR Report</button>
+      </div>
+    </form>
+
+    <!-- Report Output -->
+    <section id="reportSection" class="card report-card hidden" aria-live="polite">
+      <div class="report-header-bar">
+        <h2 class="section-title">Generated SBAR Report</h2>
+        <div class="report-actions">
+          <button type="button" id="copyBtn" class="btn btn-secondary btn-sm">Copy to Clipboard</button>
+          <button type="button" id="printBtn" class="btn btn-secondary btn-sm">Print</button>
+        </div>
+      </div>
+      <div id="reportContent" class="report-content"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>SBAR Hand-Off Patient Report &mdash; For clinical use only. Always verify information with primary documentation.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

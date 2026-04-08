@@ -1,0 +1,322 @@
+/* ── Reset & Base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-bg: #f0f4f8;
+  --color-surface: #ffffff;
+  --color-border: #d1dce8;
+  --color-text: #1e2d3d;
+  --color-text-muted: #5a7184;
+  --color-required: #c0392b;
+  --color-primary: #1a6fa8;
+  --color-primary-dark: #145585;
+  --color-secondary: #4a5568;
+  --color-secondary-dark: #2d3748;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  /* SBAR badge colors */
+  --s-color: #1e7e34;
+  --b-color: #0062cc;
+  --a-color: #856404;
+  --r-color: #842029;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+header {
+  background: linear-gradient(135deg, #1a6fa8, #0d4a73);
+  color: #fff;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+
+.header-content {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+header .subtitle {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin-top: 0.25rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── Main ── */
+main {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1rem 3rem;
+  flex: 1;
+  width: 100%;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.75rem 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.situation-card  { border-left: 4px solid var(--s-color); }
+.background-card { border-left: 4px solid var(--b-color); }
+.assessment-card { border-left: 4px solid var(--a-color); }
+.recommendation-card { border-left: 4px solid var(--r-color); }
+
+/* ── Section Titles ── */
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-text);
+}
+
+.general-title {
+  color: var(--color-primary);
+}
+
+.subsection-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.4rem;
+  margin: 1.5rem 0 1rem;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+}
+.badge-s { background: var(--s-color); }
+.badge-b { background: var(--b-color); }
+.badge-a { background: var(--a-color); }
+.badge-r { background: var(--r-color); }
+
+/* ── Form Grid ── */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field.full-width {
+  grid-column: 1 / -1;
+}
+
+/* ── Labels ── */
+label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+
+.required {
+  color: var(--color-required);
+  margin-left: 2px;
+}
+
+/* ── Inputs ── */
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--color-text);
+  background: var(--color-surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(26,111,168,0.15);
+}
+
+input.invalid,
+select.invalid,
+textarea.invalid {
+  border-color: var(--color-required);
+  box-shadow: 0 0 0 3px rgba(192,57,43,0.12);
+}
+
+/* ── Action Bar ── */
+.action-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-secondary);
+  border: 1px solid var(--color-border);
+}
+.btn-secondary:hover {
+  background: #edf2f7;
+  color: var(--color-secondary-dark);
+}
+
+.btn-sm {
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
+}
+
+/* ── Report ── */
+.report-card {
+  border-left: 4px solid var(--color-primary);
+}
+
+.report-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.report-header-bar .section-title {
+  margin-bottom: 0;
+}
+
+.report-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.report-content {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  font-family: 'Courier New', Courier, monospace;
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+}
+
+/* ── Utilities ── */
+.hidden {
+  display: none !important;
+}
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  padding: 1.25rem;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+/* ── Print ── */
+@media print {
+  header, footer, .action-bar, .report-actions, form { display: none; }
+  main { margin: 0; padding: 0; max-width: 100%; }
+  .card { box-shadow: none; border: none; border-left: none; padding: 0; margin: 0; }
+  .report-card { display: block !important; }
+  .report-content {
+    border: none;
+    background: none;
+    padding: 0;
+    font-family: 'Times New Roman', serif;
+    font-size: 11pt;
+    white-space: pre-wrap;
+  }
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  header { padding: 1rem; }
+  header h1 { font-size: 1.4rem; }
+  .card { padding: 1.25rem 1rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .action-bar { flex-direction: column; }
+  .btn { width: 100%; }
+}
