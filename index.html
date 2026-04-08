@@ -336,7 +336,13 @@
 
       <div class="action-bar">
         <button type="button" id="clearBtn" class="btn btn-secondary">Clear Form</button>
-        <button type="button" id="loadExampleBtn" class="btn btn-secondary">Load Example</button>
+        <div class="example-picker">
+          <select id="exampleSelect" class="example-select" aria-label="Select example patient">
+            <option value="Lisa Rae">Lisa Rae</option>
+            <option value="Bernadette Jackson">Bernadette Jackson</option>
+          </select>
+          <button type="button" id="loadExampleBtn" class="btn btn-secondary">Load Example</button>
+        </div>
         <button type="submit" id="generateBtn" class="btn btn-primary">Generate SBAR Report</button>
       </div>
     </form>

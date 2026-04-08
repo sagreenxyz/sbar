@@ -2,8 +2,10 @@
 
 // ── Example Data ──────────────────────────────────────────────────────────────
 
-/** Lisa Rae example used by the "Load Example" button. */
-const EXAMPLE_DATA = {
+/** Named example patients. Keys are displayed in the picker dropdown. */
+const EXAMPLES = {};
+
+EXAMPLES['Lisa Rae'] = {
   currentDateTime: 'Monday 1200',
   admissionDateTime: 'Monday 1025',
   name: 'Lisa Rae',
@@ -58,6 +60,63 @@ const EXAMPLE_DATA = {
   testResultsPending: '',
   ordersPendingCompletion: '',
   recommendationOther: 'The nursing admission has been completed. A pressure ulcer risk assessment (Braden Scale) and fall risk assessment (Morse Fall Scale) need to be completed.',
+};
+
+EXAMPLES['Bernadette Jackson'] = {
+  currentDateTime: 'Thursday 1500',
+  admissionDateTime: 'Thursday 1345',
+  name: 'Bernadette Jackson',
+  age: '85',
+  sex: 'Female',
+  ethnicity: 'African American',
+  religion: 'Christian',
+  provider: 'Kenneth Young, NP',
+  admissionDiagnosis: 'Dehydration, urinary retention, and possible urinary tract infection',
+  pertinentMedicalHistory: 'Mixed urinary incontinence; primary care provider started her on oxybutynin 1 week ago. For the past 5 days she has also taken over-the-counter loratadine for seasonal allergies. An interaction of the two medications resulted in urinary retention. This morning she presented to the emergency department with weakness, lethargy, and abdominal pain. A bladder scan revealed 620 mL of retained urine. A catheter was placed which drained all of the urine. A urine sample was sent for urinalysis.',
+  pertinentSocialHistory: 'Widowed. Lives in assisted living complex.',
+  allergies: 'No known drug allergies. Has environmental (seasonal) allergies.',
+  codeStatus: 'DNR',
+  vsTime: '1400',
+  tempF: '99.2',
+  tempC: '37.3',
+  bloodPressure: '138/68',
+  pulse: '90',
+  respiratoryRate: '24',
+  oxygenSaturation: '93',
+  oxygenMode: 'Room air',
+  oxygenLPM: '',
+  painRating: '3/10',
+  painMedication: 'Acetaminophen 500 mg',
+  medicationTime: '1230',
+  otherRecentMedications: 'Daily medications taken this morning at home',
+  ivSite: 'Right antecubital',
+  ivType: '20-gauge PIV',
+  ivAssessment: 'Intact, patent',
+  ivFluid: '0.9% normal saline IV at 100 mL/hr',
+  drainSite: 'None',
+  drainType: 'Not applicable',
+  drainAssessment: 'Not applicable',
+  woundSite: 'None',
+  woundType: 'Not applicable',
+  woundAssessment: 'Not applicable',
+  diet: 'Regular diet, encourage fluids',
+  activity: 'Bathroom privileges with assist',
+  isolation: 'Standard',
+  fallRisk: 'High',
+  neurologic: 'Talkative during admission history. Oriented x 2. Reorients easily.',
+  cardiac: 'S1 S2, no murmurs; diminished pulses, 1+ radial and dorsalis pedis bilaterally',
+  respiratory: 'Lungs clear',
+  giGu: 'Complaining of "burning" at urethral site. Urinary catheter in place. Urine output over the last 2 hours has been about 30 mL per hour. The catheter bag was last emptied at 1400.',
+  integumentary: 'Dry, intact; no skin breakdown noted',
+  orthoMobility: 'Moderate assist x 1 during transfer to the bed',
+  psychosocial: 'Emotionally stable; neighbor at bedside',
+  systemOther: '',
+  labsAndDiagnostics: 'The urinalysis has just returned but I have not had time to look at it. Can you please review it and call Kenneth Young, NP, with the results? Labs completed earlier in the day indicate a possible infection.',
+  nursesAssessment: 'Mrs. Jackson appears weak and slightly confused, possibly related to an infection. Neighbor states that this is new for Mrs. Jackson.',
+  planOfCare: 'According to the progress note, the plan is for overnight monitoring. Urology has been consulted to see her tomorrow, and then will likely discharge to home.',
+  testResultsPending: 'Complete blood count and chemistry panel in the morning.',
+  ordersPendingCompletion: 'I have completed the admission nursing history and medication reconciliation form. I have not reviewed the admission orders yet.',
+  recommendationOther: 'Her neighbor and good friend Harriet is in the room with her. She is a good resource.',
 };
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -416,13 +475,16 @@ function buildJsonReport() {
 
 // ── Event Handlers ────────────────────────────────────────────────────────────
 
-/** Pre-fill the form with the built-in Lisa Rae example. */
+/** Pre-fill the form with the selected example patient. */
 function handleLoadExample() {
+  const key  = document.getElementById('exampleSelect').value;
+  const data = EXAMPLES[key];
+  if (!data) return;
   const hasData = REQUIRED_FIELDS.some((id) => val(id));
   if (hasData) {
-    if (!confirm('Load the example patient? This will overwrite any data you have entered.')) return;
+    if (!confirm(`Load the "${key}" example? This will overwrite any data you have entered.`)) return;
   }
-  Object.entries(EXAMPLE_DATA).forEach(([id, value]) => {
+  Object.entries(data).forEach(([id, value]) => {
     const el = document.getElementById(id);
     if (!el) return;
     el.value = value;
