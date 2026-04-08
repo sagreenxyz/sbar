@@ -1,5 +1,124 @@
 'use strict';
 
+// ── Example Data ──────────────────────────────────────────────────────────────
+
+/** Named example patients. Keys are displayed in the picker dropdown. */
+const EXAMPLES = {};
+
+EXAMPLES['Lisa Rae'] = {
+  currentDateTime: 'Monday 1200',
+  admissionDateTime: 'Monday 1025',
+  name: 'Lisa Rae',
+  age: '78',
+  sex: 'Female',
+  ethnicity: 'Caucasian',
+  religion: 'None specified',
+  provider: 'Linda Moore, MD',
+  admissionDiagnosis: 'Hypotension, mechanical fall',
+  pertinentMedicalHistory: 'History of hypertension, falls, and osteoporosis; osteoarthritis in right knee',
+  pertinentSocialHistory: 'Patient lives in an assisted living facility. Her daughter lives in the area.',
+  allergies: 'No known allergies',
+  codeStatus: 'Full code',
+  vsTime: '1040',
+  tempF: '98.8',
+  tempC: '37.1',
+  bloodPressure: '94/70',
+  pulse: '84',
+  respiratoryRate: '18',
+  oxygenSaturation: '93',
+  oxygenMode: 'Room air',
+  oxygenLPM: '',
+  painRating: '5/10',
+  painMedication: '0.2 mg hydromorphone IV',
+  medicationTime: '1140',
+  otherRecentMedications: 'Patient took 50 mg hydrochlorothiazide, 10 mg alendronate, and 600 mg calcium carbonate at home this morning. Patient reports that she might have inadvertently taken 2 tabs (100 mg) of hydrochlorothiazide.',
+  ivSite: 'Right antecubital',
+  ivType: '18-gauge PIV',
+  ivAssessment: 'Intact, patent',
+  ivFluid: '0.9% normal saline IV at 75 mL/hr',
+  drainSite: '',
+  drainType: '',
+  drainAssessment: '',
+  woundSite: 'Right hip',
+  woundType: 'Hematoma',
+  woundAssessment: 'Intact, warm, and tender to palpation',
+  diet: '3 g sodium diet',
+  activity: 'Up with moderate assistance and walker',
+  isolation: 'Standard precautions',
+  fallRisk: 'Not yet completed',
+  neurologic: 'Alert and oriented x 2 (oriented to person and place, disoriented to day/time)',
+  cardiac: 'S1, S2 regular rate',
+  respiratory: 'Lungs clear throughout',
+  giGu: 'Bowel sounds present in all 4 quadrants; some involuntary urinary incontinence',
+  integumentary: 'Ecchymotic area on right hip',
+  orthoMobility: 'Weak',
+  psychosocial: 'Daughter lives in town',
+  systemOther: '',
+  labsAndDiagnostics: 'Results from complete blood count and basic metabolic panel are within normal limits.',
+  nursesAssessment: 'Lisa Rae was alert and oriented x 3 in the emergency department. She has been disoriented to time since admission, possibly related to hydromorphone administration. She has complained of grogginess and almost fell trying to get to the bedside commode.',
+  planOfCare: 'Rehydrate with maintenance IV fluids; physical therapy/occupational therapy to evaluate and treat for home safety',
+  testResultsPending: '',
+  ordersPendingCompletion: '',
+  recommendationOther: 'The nursing admission has been completed. A pressure ulcer risk assessment (Braden Scale) and fall risk assessment (Morse Fall Scale) need to be completed.',
+};
+
+EXAMPLES['Bernadette Jackson'] = {
+  currentDateTime: 'Thursday 1500',
+  admissionDateTime: 'Thursday 1345',
+  name: 'Bernadette Jackson',
+  age: '85',
+  sex: 'Female',
+  ethnicity: 'African American',
+  religion: 'Christian',
+  provider: 'Kenneth Young, NP',
+  admissionDiagnosis: 'Dehydration, urinary retention, and possible urinary tract infection',
+  pertinentMedicalHistory: 'Mixed urinary incontinence; primary care provider started her on oxybutynin 1 week ago. For the past 5 days she has also taken over-the-counter loratadine for seasonal allergies. An interaction of the two medications resulted in urinary retention. This morning she presented to the emergency department with weakness, lethargy, and abdominal pain. A bladder scan revealed 620 mL of retained urine. A catheter was placed which drained all of the urine. A urine sample was sent for urinalysis.',
+  pertinentSocialHistory: 'Widowed. Lives in assisted living complex.',
+  allergies: 'No known drug allergies. Has environmental (seasonal) allergies.',
+  codeStatus: 'DNR',
+  vsTime: '1400',
+  tempF: '99.2',
+  tempC: '37.3',
+  bloodPressure: '138/68',
+  pulse: '90',
+  respiratoryRate: '24',
+  oxygenSaturation: '93',
+  oxygenMode: 'Room air',
+  oxygenLPM: '',
+  painRating: '3/10',
+  painMedication: 'Acetaminophen 500 mg',
+  medicationTime: '1230',
+  otherRecentMedications: 'Daily medications taken this morning at home',
+  ivSite: 'Right antecubital',
+  ivType: '20-gauge PIV',
+  ivAssessment: 'Intact, patent',
+  ivFluid: '0.9% normal saline IV at 100 mL/hr',
+  drainSite: 'None',
+  drainType: 'Not applicable',
+  drainAssessment: 'Not applicable',
+  woundSite: 'None',
+  woundType: 'Not applicable',
+  woundAssessment: 'Not applicable',
+  diet: 'Regular diet, encourage fluids',
+  activity: 'Bathroom privileges with assist',
+  isolation: 'Standard',
+  fallRisk: 'High',
+  neurologic: 'Talkative during admission history. Oriented x 2. Reorients easily.',
+  cardiac: 'S1 S2, no murmurs; diminished pulses, 1+ radial and dorsalis pedis bilaterally',
+  respiratory: 'Lungs clear',
+  giGu: 'Complaining of "burning" at urethral site. Urinary catheter in place. Urine output over the last 2 hours has been about 30 mL per hour. The catheter bag was last emptied at 1400.',
+  integumentary: 'Dry, intact; no skin breakdown noted',
+  orthoMobility: 'Moderate assist x 1 during transfer to the bed',
+  psychosocial: 'Emotionally stable; neighbor at bedside',
+  systemOther: '',
+  labsAndDiagnostics: 'The urinalysis has just returned but I have not had time to look at it. Can you please review it and call Kenneth Young, NP, with the results? Labs completed earlier in the day indicate a possible infection.',
+  nursesAssessment: 'Mrs. Jackson appears weak and slightly confused, possibly related to an infection. Neighbor states that this is new for Mrs. Jackson.',
+  planOfCare: 'According to the progress note, the plan is for overnight monitoring. Urology has been consulted to see her tomorrow, and then will likely discharge to home.',
+  testResultsPending: 'Complete blood count and chemistry panel in the morning.',
+  ordersPendingCompletion: 'I have completed the admission nursing history and medication reconciliation form. I have not reviewed the admission orders yet.',
+  recommendationOther: 'Her neighbor and good friend Harriet is in the room with her. She is a good resource.',
+};
+
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 /**
@@ -244,7 +363,148 @@ function buildReport() {
   return lines.join('\n');
 }
 
+// ── JSON Export ───────────────────────────────────────────────────────────────
+
+/**
+ * Build a JSON object from the current form values, conforming to the
+ * SBAR hand-off patient report schema.
+ * @returns {object}
+ */
+function buildJsonReport() {
+  const nullIfEmpty = (v) => v || null;
+  const numOrNull   = (v) => (v !== '' && !isNaN(Number(v)) ? Number(v) : null);
+
+  return {
+    currentDateTime:  val('currentDateTime'),
+    admissionDateTime: val('admissionDateTime'),
+
+    situation: {
+      name:               val('name'),
+      age:                numOrNull(val('age')),
+      sex:                val('sex'),
+      ethnicity:          nullIfEmpty(val('ethnicity')),
+      religion:           nullIfEmpty(val('religion')),
+      provider:           val('provider'),
+      admissionDiagnosis: val('admissionDiagnosis'),
+    },
+
+    background: {
+      pertinentMedicalHistory: nullIfEmpty(val('pertinentMedicalHistory')),
+      pertinentSocialHistory:  nullIfEmpty(val('pertinentSocialHistory')),
+      allergies:               val('allergies'),
+      codeStatus:              val('codeStatus'),
+
+      vitalSigns: {
+        time:                    nullIfEmpty(val('vsTime')),
+        temperatureFahrenheit:   numOrNull(val('tempF')),
+        temperatureCelsius:      numOrNull(val('tempC')),
+        bloodPressure:           nullIfEmpty(val('bloodPressure')),
+        pulse:                   numOrNull(val('pulse')),
+        respiratoryRate:         numOrNull(val('respiratoryRate')),
+        oxygenSaturationPercent: numOrNull(val('oxygenSaturation')),
+      },
+
+      oxygenTherapy: {
+        mode:           nullIfEmpty(val('oxygenMode')),
+        litersPerMinute: numOrNull(val('oxygenLPM')),
+      },
+
+      pain: {
+        rating:                  nullIfEmpty(val('painRating')),
+        mostRecentPainMedication: nullIfEmpty(val('painMedication')),
+        medicationTime:          nullIfEmpty(val('medicationTime')),
+      },
+
+      otherRecentMedications: nullIfEmpty(val('otherRecentMedications')),
+
+      ivAccess: {
+        site:       nullIfEmpty(val('ivSite')),
+        type:       nullIfEmpty(val('ivType')),
+        assessment: nullIfEmpty(val('ivAssessment')),
+        fluid:      nullIfEmpty(val('ivFluid')),
+      },
+
+      drainsAndTubes: {
+        site:       nullIfEmpty(val('drainSite')),
+        type:       nullIfEmpty(val('drainType')),
+        assessment: nullIfEmpty(val('drainAssessment')),
+      },
+
+      wounds: {
+        site:       nullIfEmpty(val('woundSite')),
+        type:       nullIfEmpty(val('woundType')),
+        assessment: nullIfEmpty(val('woundAssessment')),
+      },
+
+      adls: {
+        diet:     nullIfEmpty(val('diet')),
+        activity: nullIfEmpty(val('activity')),
+      },
+
+      restrictions: {
+        isolation: nullIfEmpty(val('isolation')),
+        fallRisk:  nullIfEmpty(val('fallRisk')),
+      },
+
+      systemAssessments: {
+        neurologic:     nullIfEmpty(val('neurologic')),
+        cardiac:        nullIfEmpty(val('cardiac')),
+        respiratory:    nullIfEmpty(val('respiratory')),
+        giGu:           nullIfEmpty(val('giGu')),
+        integumentary:  nullIfEmpty(val('integumentary')),
+        orthoMobility:  nullIfEmpty(val('orthoMobility')),
+        psychosocial:   nullIfEmpty(val('psychosocial')),
+        other:          nullIfEmpty(val('systemOther')),
+      },
+
+      labsAndDiagnostics: nullIfEmpty(val('labsAndDiagnostics')),
+    },
+
+    assessment: {
+      nursesAssessment: val('nursesAssessment'),
+    },
+
+    recommendation: {
+      planOfCare:              nullIfEmpty(val('planOfCare')),
+      testResultsPending:      nullIfEmpty(val('testResultsPending')),
+      ordersPendingCompletion: nullIfEmpty(val('ordersPendingCompletion')),
+      other:                   nullIfEmpty(val('recommendationOther')),
+    },
+  };
+}
+
 // ── Event Handlers ────────────────────────────────────────────────────────────
+
+/** Pre-fill the form with the selected example patient. */
+function handleLoadExample() {
+  const key  = document.getElementById('exampleSelect').value;
+  const data = EXAMPLES[key];
+  if (!data) return;
+  const hasData = REQUIRED_FIELDS.some((id) => val(id));
+  if (hasData) {
+    if (!confirm(`Load the "${key}" example? This will overwrite any data you have entered.`)) return;
+  }
+  Object.entries(data).forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = value;
+    el.classList.remove('invalid');
+  });
+  document.getElementById('reportSection').classList.add('hidden');
+}
+
+/** Download the current form data as a JSON file. */
+function handleDownloadJson() {
+  const data = buildJsonReport();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const patientName = (val('name') || 'sbar-report').replace(/\s+/g, '-').toLowerCase();
+  a.href     = url;
+  a.download = `${patientName}-sbar.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
 /** Remove invalid styling when the user starts correcting a field. */
 function attachInputListeners() {
@@ -317,6 +577,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('sbarForm').addEventListener('submit', handleSubmit);
   document.getElementById('clearBtn').addEventListener('click', handleClear);
+  document.getElementById('loadExampleBtn').addEventListener('click', handleLoadExample);
   document.getElementById('copyBtn').addEventListener('click', handleCopy);
   document.getElementById('printBtn').addEventListener('click', handlePrint);
+  document.getElementById('downloadJsonBtn').addEventListener('click', handleDownloadJson);
 });
