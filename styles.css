@@ -24,11 +24,15 @@
   --b-color: #0062cc;
   --a-color: #856404;
   --r-color: #842029;
+
+  /* Section nav height (used for scroll offset compensation) */
+  --nav-height: 48px;
 }
 
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 8px);
 }
 
 body {
@@ -67,11 +71,68 @@ header .subtitle {
   letter-spacing: 0.04em;
 }
 
+/* ── Section Navigation ── */
+.section-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  height: var(--nav-height);
+}
+
+.section-nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.section-nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  color: var(--color-text-muted);
+  background: transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.nav-pill:hover {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.nav-pill.active,
+.nav-pill:focus-visible {
+  color: #fff;
+  border-color: transparent;
+  outline: none;
+}
+
+.nav-general.active { background: var(--color-primary); }
+.nav-s.active       { background: var(--s-color); }
+.nav-b.active       { background: var(--b-color); }
+.nav-a.active       { background: var(--a-color); }
+.nav-r.active       { background: var(--r-color); }
+
 /* ── Main ── */
 main {
   max-width: 960px;
   margin: 2rem auto;
-  padding: 0 1rem 3rem;
+  padding: 0 1rem 6rem;
   flex: 1;
   width: 100%;
 }
@@ -84,6 +145,11 @@ main {
   padding: 1.75rem 2rem;
   margin-bottom: 1.5rem;
   box-shadow: var(--shadow);
+  transition: box-shadow 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.11);
 }
 
 .situation-card  { border-left: 4px solid var(--s-color); }
@@ -197,12 +263,22 @@ textarea.invalid {
   box-shadow: 0 0 0 3px rgba(192,57,43,0.12);
 }
 
-/* ── Action Bar ── */
+/* ── Action Bar (sticky) ── */
 .action-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 90;
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin-top: 0.5rem;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--color-border);
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 0.85rem 1.5rem;
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+  margin: 0 -1rem;
 }
 
 /* ── Buttons ── */
@@ -216,19 +292,21 @@ textarea.invalid {
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
 }
 
 .btn:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 .btn-primary {
   background: var(--color-primary);
   color: #fff;
+  box-shadow: 0 2px 6px rgba(26,111,168,0.3);
 }
 .btn-primary:hover {
   background: var(--color-primary-dark);
+  box-shadow: 0 4px 10px rgba(26,111,168,0.4);
 }
 
 .btn-secondary {
@@ -269,15 +347,187 @@ textarea.invalid {
   gap: 0.5rem;
 }
 
+/* HTML report rendering */
 .report-content {
   font-size: 0.95rem;
-  line-height: 1.75;
-  white-space: pre-wrap;
-  font-family: 'Courier New', Courier, monospace;
+  line-height: 1.7;
   background: #f8fafc;
   border: 1px solid var(--color-border);
   border-radius: 6px;
-  padding: 1.25rem 1.5rem;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.report-section + .report-section {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.report-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.85rem;
+}
+
+.report-section-header .badge {
+  width: 1.6rem;
+  height: 1.6rem;
+  font-size: 0.85rem;
+}
+
+.report-meta {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.report-meta span strong {
+  color: var(--color-text);
+}
+
+.report-rows {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.report-row {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  align-items: baseline;
+}
+
+.report-label {
+  font-weight: 600;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.report-value {
+  color: var(--color-text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.report-subsection {
+  margin-top: 1rem;
+}
+
+.report-subsection-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.6rem;
+}
+
+.report-narrative {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.7;
+}
+
+/* ── Toast notifications ── */
+.toast-container {
+  position: fixed;
+  bottom: 5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  animation: toast-in 0.25s ease, toast-out 0.3s ease 2.5s forwards;
+  pointer-events: auto;
+}
+
+.toast-success { background: #1a7f4b; }
+.toast-error   { background: #c0392b; }
+.toast-info    { background: var(--color-primary); }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes toast-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(12px); }
+}
+
+/* ── Scroll-to-top ── */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 5rem;
+  right: 1.5rem;
+  z-index: 200;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  transition: opacity 0.2s, transform 0.2s, background 0.15s;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+}
+
+.scroll-top-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+  background: var(--color-primary-dark);
+}
+
+/* ── Save indicator ── */
+.save-indicator {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-right: auto;
+  align-self: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.save-indicator.visible {
+  opacity: 1;
 }
 
 /* ── Utilities ── */
@@ -297,7 +547,8 @@ footer {
 
 /* ── Print ── */
 @media print {
-  header, footer, .action-bar, .report-actions, form { display: none; }
+  header, footer, .action-bar, .report-actions, form,
+  .section-nav, .scroll-top-btn, .toast-container { display: none; }
   main { margin: 0; padding: 0; max-width: 100%; }
   .card { box-shadow: none; border: none; border-left: none; padding: 0; margin: 0; }
   .report-card { display: block !important; }
@@ -307,8 +558,13 @@ footer {
     padding: 0;
     font-family: 'Times New Roman', serif;
     font-size: 11pt;
-    white-space: pre-wrap;
   }
+  .report-section + .report-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+  .report-label { font-size: 9pt; }
+  .report-value { font-size: 11pt; }
 }
 
 /* ── Responsive ── */
@@ -317,6 +573,10 @@ footer {
   header h1 { font-size: 1.4rem; }
   .card { padding: 1.25rem 1rem; }
   .form-grid { grid-template-columns: 1fr; }
-  .action-bar { flex-direction: column; }
-  .btn { width: 100%; }
+  .action-bar { flex-direction: row; flex-wrap: wrap; }
+  .btn { flex: 1; min-width: 120px; }
+  .report-row { grid-template-columns: 1fr; gap: 0.1rem; }
+  .report-label { margin-top: 0.5rem; }
+  .toast-container { right: 1rem; bottom: 4.5rem; }
+  .scroll-top-btn { right: 1rem; bottom: 4.5rem; }
 }

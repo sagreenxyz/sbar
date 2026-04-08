@@ -7,6 +7,12 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Toast container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Scroll-to-top button -->
+  <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top" title="Back to top">&#8679;</button>
+
   <header>
     <div class="header-content">
       <h1>SBAR Hand-Off Patient Report</h1>
@@ -14,11 +20,22 @@
     </div>
   </header>
 
+  <!-- Section Navigation -->
+  <nav class="section-nav" aria-label="Form section navigation">
+    <div class="section-nav-inner">
+      <a href="#section-general" class="nav-pill nav-general">General</a>
+      <a href="#section-situation" class="nav-pill nav-s">S – Situation</a>
+      <a href="#section-background" class="nav-pill nav-b">B – Background</a>
+      <a href="#section-assessment" class="nav-pill nav-a">A – Assessment</a>
+      <a href="#section-recommendation" class="nav-pill nav-r">R – Recommendation</a>
+    </div>
+  </nav>
+
   <main>
     <form id="sbarForm" novalidate>
 
       <!-- ── Date/Time ── -->
-      <section class="card">
+      <section class="card" id="section-general">
         <h2 class="section-title general-title">General Information</h2>
         <div class="form-grid">
           <div class="field">
@@ -33,7 +50,7 @@
       </section>
 
       <!-- ── S – Situation ── -->
-      <section class="card situation-card">
+      <section class="card situation-card" id="section-situation">
         <h2 class="section-title"><span class="badge badge-s">S</span> Situation</h2>
         <div class="form-grid">
           <div class="field">
@@ -73,7 +90,7 @@
       </section>
 
       <!-- ── B – Background ── -->
-      <section class="card background-card">
+      <section class="card background-card" id="section-background">
         <h2 class="section-title"><span class="badge badge-b">B</span> Background</h2>
 
         <div class="form-grid">
@@ -301,7 +318,7 @@
       </section>
 
       <!-- ── A – Assessment ── -->
-      <section class="card assessment-card">
+      <section class="card assessment-card" id="section-assessment">
         <h2 class="section-title"><span class="badge badge-a">A</span> Assessment</h2>
         <div class="form-grid">
           <div class="field full-width">
@@ -312,7 +329,7 @@
       </section>
 
       <!-- ── R – Recommendation ── -->
-      <section class="card recommendation-card">
+      <section class="card recommendation-card" id="section-recommendation">
         <h2 class="section-title"><span class="badge badge-r">R</span> Recommendation</h2>
         <div class="form-grid">
           <div class="field full-width">
@@ -335,6 +352,7 @@
       </section>
 
       <div class="action-bar">
+        <span id="saveIndicator" class="save-indicator">&#10003; Saved</span>
         <button type="button" id="clearBtn" class="btn btn-secondary">Clear Form</button>
         <button type="submit" id="generateBtn" class="btn btn-primary">Generate SBAR Report</button>
       </div>
